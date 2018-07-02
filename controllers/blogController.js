@@ -97,11 +97,74 @@ const BlogModel = mongoose.model('Blog')
 
     }//end of blog create function
 
+    // Function  to edit Blog
+    let editBlog = (req, res) => {
+
+        let options = req.body;
+        
+        BlogModel.update({'blogId': req.params.blogId}, options, {multi: true}).exec((err, result) => {
+
+            if(err){
+
+                console.log('err :', err);
+                res.send(err);
+
+            }else if(result == undefined || result == null || result == ''){
+
+                console.log('Blog not Found!!!');
+                res.send('No Blog found!');
+                
+            }else{
+
+                res.send(result);
+
+            }
+        })
+    }//end of edit blog
+
+    // function to increase the blog view
+    let increaseBlogView = (req , res) => {
+
+        BlogModel.findOne({'blogId': req.params.blogId }, (err, result) => {
+
+            if(err){
+
+                console.log('err :', err);
+                res.send(err);
+
+            }else if (result == undefined || result == null || result == ''){
+
+                console.log('Blog not found');
+                res.send("Blog Not Found")
+
+            }else{
+                result.views += 1;
+                result.save(function(err, result)  {
+
+                    if(err){
+    
+                        console.log('err :', err);
+                        res.send(err);
+    
+                    }else{
+                        
+                        res.send(result);
+                        
+                    }
+                })
+
+            }
+
+        })
+
+    }//end of increse count
+
 module.exports = {
 
-  getAllBlog: getAllBlog,
-  viewByBlogId: viewByBlogId,
-  createBlog: createBlog,
-
+    getAllBlog: getAllBlog,
+    viewByBlogId: viewByBlogId,
+    createBlog: createBlog,
+    editBlog: editBlog,
+    increaseBlogView: increaseBlogView,
 
 }

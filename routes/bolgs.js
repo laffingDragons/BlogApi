@@ -12,6 +12,10 @@ let setRouter = (app) => {
 
        app.post(baseUrl+'/create', blogController.createBlog);
 
+       app.put(baseUrl+'/:blogId/edit', blogController.editBlog);
+
+       app.get(baseUrl+'/:blogId/count/view', blogController.increaseBlogView);
+
     } // end of setROuter function
 
 module.exports = {
