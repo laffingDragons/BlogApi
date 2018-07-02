@@ -4,13 +4,20 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const globalErrorMiddleware = require('./middlewares/appErrorHandler');
+const routeLoggerMiddleware = require('./middlewares/routeLogger')
 
+
+
+//declaring an instance of application
 const app = express();
 
-//moddleware
+//middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(cookieParser());
+
+app.use(globalErrorMiddleware.globalErrorHandler);
 
 
 //Bootstrap all the models
@@ -41,9 +48,11 @@ fs.readdirSync(routePath).forEach(function(file) {
 
 }); //end of bootstraping routes
 
+//calling 404 after not found routes
+app.use(globalErrorMiddleware.globalNotFoundHandler);
 
-
-
+//end of global middleware
+// Note: The Order here is very important first the Models, then route and then the Middleware for route
 
 app.listen(appConfig.port, () => {
 
