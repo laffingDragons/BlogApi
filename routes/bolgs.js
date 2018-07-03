@@ -1,6 +1,6 @@
 const express = require('express');
-const blogController = require('./../controllers/blogController')
-const apiConfig = require('./../config/appConfig')
+const blogController = require('./../controllers/blogController');
+const apiConfig = require('./../config/appConfig');
 
 let setRouter = (app) => {
 
@@ -23,4 +23,5 @@ let setRouter = (app) => {
 module.exports = {
 
     setRouter: setRouter
+
 }

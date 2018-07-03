@@ -4,6 +4,7 @@ const shortid = require('short-id');
 const response = require('./../libs/responseLib');
 const moment = require('./../libs/timLib');
 const check = require('./../libs/checkLib');
+const logger = require('./../libs/loggerLib');
 
 
 // importing model here
@@ -19,19 +20,20 @@ const BlogModel = mongoose.model('Blog')
 
                 if(err){
 
-                    console.log(err);
+                    logger.error(`Error Ocurred: ${err}`, 'Database', 10);
                     let apiResponse = response.generate(true, "Error Occured", 500, null);
                     res.send(apiResponse);
                     
                 }else if(check.isEmpty(result)){
 
-                    console.log('Blog not Found!!!');
+                    logger.info('Blog not found', 'BlogController: getAllBlogs', 5);
                     let apiResponse = response.generate(true, "Blog Not Found", 404, null);
                     res.send(apiResponse);
                     
                 }else{
 
-                    let apiResponse = response.generate(false, "Blog found", 200, result);
+                    logger.info('Blog found Successfully', 'BlogController: getAllBlogs', 5);
+                    let apiResponse = response.generate(false, "Blog found Successfully", 200, result);
                     res.send(apiResponse);
 
                 }
@@ -47,18 +49,19 @@ const BlogModel = mongoose.model('Blog')
 
             if(err){
 
-                    console.log(err);
+                    logger.error(`Error Ocurred: ${err}`, 'Database', 10);
                     let apiResponse = response.generate(true, "Error Occured", 500, null);
                     res.send(apiResponse);
 
             }else if(check.isEmpty(result)){
 
-                console.log('Blog not Found!!!');
+                logger.info('Blog not found', 'BlogController: viewByBlogId', 5);
                 let apiResponse = response.generate(true, "Blog Not Found", 404, null);
                 res.send(apiResponse);
                 
             }else{
 
+                logger.info('Blog found Successfully', 'BlogController: viewByBlogId', 5);
                 let apiResponse = response.generate(false, "Blog found", 200, result);
                 res.send(apiResponse);
 
@@ -94,12 +97,13 @@ const BlogModel = mongoose.model('Blog')
 
             if(err){
 
-                console.log(err);
+                logger.error(`Error Ocurred: ${err}`, 'Database', 10);
                 let apiResponse = response.generate(true, "Error Occured", 500, null);
                 res.send(apiResponse);
 
             }else{
 
+                logger.info('Blog found Successfully', 'BlogController: createBlogId', 5);
                 let apiResponse = response.generate(false, "Blog Created successfully!", 200, result);
                 res.send(apiResponse);
 
@@ -118,18 +122,19 @@ const BlogModel = mongoose.model('Blog')
 
             if(err){
 
-                console.log(err);
+                logger.error(`Error Ocurred: ${err}`, 'Database', 10);
                 let apiResponse = response.generate(true, "Error Occured", 500, null);
                 res.send(apiResponse);
 
             }else if(check.isEmpty(result)){
 
-                console.log('Blog not Found!!!');
+                logger.info('Blog not found', 'BlogController: editBlog', 5);
                 let apiResponse = response.generate(true, "Blog Not Found", 404, null);
                 res.send(apiResponse);
                 
             }else{
 
+                logger.info('Blog found Successfully', 'BlogController: editBlog', 5);
                 let apiResponse = response.generate(false, "Blog updated successfully" , 200, result);
                 res.send(apiResponse);
 
@@ -144,13 +149,13 @@ const BlogModel = mongoose.model('Blog')
 
             if(err){
 
-                console.log(err);
+                logger.error(`Error Ocurred: ${err}`, 'Database', 10);
                 let apiResponse = response.generate(true, "Error Occured", 500, null);
                 res.send(apiResponse);
 
             }else if (check.isEmpty(result)){
 
-                console.log('Blog not Found!!!');
+                logger.info('Blog not found', 'BlogController: increaseBlogView', 5);
                 let apiResponse = response.generate(true, "Blog Not Found", 404, null);
                 res.send(apiResponse);
 
@@ -161,12 +166,13 @@ const BlogModel = mongoose.model('Blog')
 
                     if(err){
     
-                        console.log(err);
+                        logger.error(`Error Ocurred: ${err}`, 'Database', 10);
                         let apiResponse = response.generate(true, "Error Occured", 500, null);
                         res.send(apiResponse);
     
                     }else{
-                        
+
+                        logger.info('Blog found Successfully', 'BlogController: increaseBlogView', 5);
                         let apiResponse = response.generate(false, "Blog updated successfully" , 200, result);
                         res.send(apiResponse);
                         
@@ -186,18 +192,19 @@ let deleteBlog = (req, res) => {
     BlogModel.remove({ 'blogId': req.params.blogId }, (err, result) => {
         if (err) {
 
-            console.log(err);
+            logger.error(`Error Ocurred: ${err}`, 'Database', 10);
             let apiResponse = response.generate(true, "Error Occured", 500, null);
             res.send(apiResponse);
 
         } else if (check.isEmpty(result)) {
 
-            console.log('Blog not Found!!!');
+            logger.info('Blog not found', 'BlogController: deleteBlog', 5);
             let apiResponse = response.generate(true, "Blog Not Found", 404, null);
             res.send(apiResponse);
 
         } else {
 
+            logger.info('Blog found Successfully', 'BlogController: deleteBlog', 5);
             let apiResponse = response.generate(false, "Blog Deleted successfully" , 200, result);
             res.send(apiResponse);
 
