@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const globalErrorMiddleware = require('./middlewares/appErrorHandler');
-const routeLoggerMiddleware = require('./middlewares/routeLogger')
+const routeLoggerMiddleware = require('./middlewares/routeLogger');
 
 
 
@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(cookieParser());
 
 app.use(globalErrorMiddleware.globalErrorHandler);
+app.use(routeLoggerMiddleware.logIp);
 
 
 //Bootstrap all the models

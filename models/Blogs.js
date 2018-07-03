@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('./../libs/timLib');
 
 const Schema = mongoose.Schema;
 
@@ -13,8 +14,8 @@ let blogSchema = new Schema({
     author: { type: String, default: '' },
     isPublished: { type: Boolean, default: false },
     tags: [],
-    created: { type: Date, default: Date.now },
-    lastModified: { type: Date, default: Date.now },
+    created: { type: Date, default: moment.now },
+    lastModified: { type: Date, default: moment.now },
     // authorInfo: {}
 
 })

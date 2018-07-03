@@ -1,6 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const shortid = require('short-id')
+const shortid = require('short-id');
+const response = require('./../libs/responseLib');
+const moment = require('./../libs/timLib');
+const check = require('./../libs/checkLib');
+
 
 // importing model here
 const BlogModel = mongoose.model('Blog')
@@ -16,16 +20,19 @@ const BlogModel = mongoose.model('Blog')
                 if(err){
 
                     console.log(err);
-                    res.send(err);
+                    let apiResponse = response.generate(true, "Error Occured", 500, null);
+                    res.send(apiResponse);
                     
-                }else if(result == undefined || result == null || result == ''){
+                }else if(check.isEmpty(result)){
 
                     console.log('Blog not Found!!!');
-                    res.send('No Blog found!');
+                    let apiResponse = response.generate(true, "Blog Not Found", 404, null);
+                    res.send(apiResponse);
                     
                 }else{
 
-                    res.send(result);
+                    let apiResponse = response.generate(false, "Blog found", 200, result);
+                    res.send(apiResponse);
 
                 }
             })
@@ -36,21 +43,24 @@ const BlogModel = mongoose.model('Blog')
     // Function to get a single blog by Id
     let viewByBlogId = (req, res) => {
 
-        BlogModel.findOne({ 'blogId': req.params.blogId }, (req, res) => {
+        BlogModel.findOne({ 'blogId': req.params.blogId }, (err, result) => {
 
             if(err){
 
-                console.log(err);
-                res.send(err);
+                    console.log(err);
+                    let apiResponse = response.generate(true, "Error Occured", 500, null);
+                    res.send(apiResponse);
 
-            }else if(result == undefined || result == null || result == ''){
+            }else if(check.isEmpty(result)){
 
                 console.log('Blog not Found!!!');
-                res.send('No Blog found!');
+                let apiResponse = response.generate(true, "Blog Not Found", 404, null);
+                res.send(apiResponse);
                 
             }else{
 
-                res.send(result);
+                let apiResponse = response.generate(false, "Blog found", 200, result);
+                res.send(apiResponse);
 
             }
 
@@ -60,7 +70,7 @@ const BlogModel = mongoose.model('Blog')
 
     let createBlog = (req, res) => {
 
-        var today = Date.now();
+        var today = moment.now();
         let blogId = shortid.generate();
        
         let newBlog = new BlogModel({
@@ -85,11 +95,13 @@ const BlogModel = mongoose.model('Blog')
             if(err){
 
                 console.log(err);
-                res.send(err);
+                let apiResponse = response.generate(true, "Error Occured", 500, null);
+                res.send(apiResponse);
 
             }else{
 
-                res.send(result);
+                let apiResponse = response.generate(false, "Blog Created successfully!", 200, result);
+                res.send(apiResponse);
 
             }
 
@@ -106,17 +118,20 @@ const BlogModel = mongoose.model('Blog')
 
             if(err){
 
-                console.log('err :', err);
-                res.send(err);
+                console.log(err);
+                let apiResponse = response.generate(true, "Error Occured", 500, null);
+                res.send(apiResponse);
 
-            }else if(result == undefined || result == null || result == ''){
+            }else if(check.isEmpty(result)){
 
                 console.log('Blog not Found!!!');
-                res.send('No Blog found!');
+                let apiResponse = response.generate(true, "Blog Not Found", 404, null);
+                res.send(apiResponse);
                 
             }else{
 
-                res.send(result);
+                let apiResponse = response.generate(false, "Blog updated successfully" , 200, result);
+                res.send(apiResponse);
 
             }
         })
@@ -129,26 +144,31 @@ const BlogModel = mongoose.model('Blog')
 
             if(err){
 
-                console.log('err :', err);
-                res.send(err);
+                console.log(err);
+                let apiResponse = response.generate(true, "Error Occured", 500, null);
+                res.send(apiResponse);
 
-            }else if (result == undefined || result == null || result == ''){
+            }else if (check.isEmpty(result)){
 
-                console.log('Blog not found');
-                res.send("Blog Not Found")
+                console.log('Blog not Found!!!');
+                let apiResponse = response.generate(true, "Blog Not Found", 404, null);
+                res.send(apiResponse);
 
             }else{
+
                 result.views += 1;
                 result.save(function(err, result)  {
 
                     if(err){
     
-                        console.log('err :', err);
-                        res.send(err);
+                        console.log(err);
+                        let apiResponse = response.generate(true, "Error Occured", 500, null);
+                        res.send(apiResponse);
     
                     }else{
                         
-                        res.send(result);
+                        let apiResponse = response.generate(false, "Blog updated successfully" , 200, result);
+                        res.send(apiResponse);
                         
                     }
                 })
@@ -159,6 +179,33 @@ const BlogModel = mongoose.model('Blog')
 
     }//end of increse count
 
+    /**
+ * function to delete the assignment collection.
+ */
+let deleteBlog = (req, res) => {
+    BlogModel.remove({ 'blogId': req.params.blogId }, (err, result) => {
+        if (err) {
+
+            console.log(err);
+            let apiResponse = response.generate(true, "Error Occured", 500, null);
+            res.send(apiResponse);
+
+        } else if (check.isEmpty(result)) {
+
+            console.log('Blog not Found!!!');
+            let apiResponse = response.generate(true, "Blog Not Found", 404, null);
+            res.send(apiResponse);
+
+        } else {
+
+            let apiResponse = response.generate(false, "Blog Deleted successfully" , 200, result);
+            res.send(apiResponse);
+
+        }
+    })
+}
+
+
 module.exports = {
 
     getAllBlog: getAllBlog,
@@ -166,5 +213,6 @@ module.exports = {
     createBlog: createBlog,
     editBlog: editBlog,
     increaseBlogView: increaseBlogView,
+    deleteBlog: deleteBlog
 
 }
