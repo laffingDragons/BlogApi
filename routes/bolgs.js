@@ -97,7 +97,7 @@ let setRouter = (app) => {
 	 * @apiVersion 0.0.1
 	 * @apiGroup create
 	 *
-	 * @apiParam {String} authToken The token for authentication.(Send authToken as query parameter, body parameter or as a header)
+	 * @apiParam {String} authToken The token for authentication.(Send authToken as query parameter, body parameter or as a header)viz authToken=Admin
 	 * @apiParam {String} title title of the blog passed as a body parameter
 	 * @apiParam {String} description description of the blog passed as a body parameter
 	 * @apiParam {String} blogBody blogBody of the blog passed as a body parameter
@@ -143,7 +143,7 @@ let setRouter = (app) => {
 	 * @apiVersion 0.0.1
 	 * @apiGroup delete
 	 *
-	 * @apiParam {String} authToken The token for authentication.(Send authToken as query parameter, body parameter or as a header)
+	 * @apiParam {String} authToken The token for authentication.(Send authToken as query parameter, body parameter or as a header)viz authToken=Admin
 	 * @apiParam {String} blogId blogId of the blog passed as the URL parameter
 	 *
 	 *  @apiSuccessExample {json} Success-Response:
@@ -172,7 +172,7 @@ let setRouter = (app) => {
 	 * @apiVersion 0.0.1
 	 * @apiGroup edit
 	 *
-	 * @apiParam {String} authToken The token for authentication.(Send authToken as query parameter, body parameter or as a header)
+	 * @apiParam {String} authToken The token for authentication.(Send authToken as query parameter, body parameter or as a header)viz authToken=Admin
 	 * @apiParam {String} blogId blogId of the blog passed as the URL parameter
 	 *
 	 *  @apiSuccessExample {json} Success-Response:
@@ -216,7 +216,7 @@ let setRouter = (app) => {
 	 * @apiVersion 0.0.1
 	 * @apiGroup update
 	 *
-	 * @apiParam {String} authToken The token for authentication.(Send authToken as query parameter, body parameter or as a header)
+	 * @apiParam {String} authToken The token for authentication.(Send authToken as query parameter, body parameter or as a header)viz authToken=Admin
 	 * @apiParam {String} blogId blogId of the blog passed as the URL parameter
 	 *
 	 *  @apiSuccessExample {json} Success-Response:
